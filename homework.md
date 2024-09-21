@@ -1,6 +1,6 @@
 # Tasks :-
 
-day 
+# day 1
 - create a repository 
 - initialize the project
 - differnces between package.json , node_modules , package-lock.json
@@ -30,3 +30,21 @@ day
 - (-g) flag are used inside the installtion of package because from any directory i can able to use use the nodemon command that is why we install some package as the global
 
 - flag are used to modify the default behaviour of the command or else provide some extra option to the command
+
+# day 2
+
+- initialize the git in the project
+- add the gitignore file 
+- add the node_mouldes in it
+- add all change and commit (using command line or gui)
+- create a remote giuthub repository config with local machine and push the code on github
+- played with multiple routes 
+- order of the routes matters a lot 
+- install the postman create a workspace with name devtinder , added collection 
+- making different api call using postman
+  - get 
+  - post 
+  - put
+  - patch 
+  - delete
+
