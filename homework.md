@@ -47,4 +47,6 @@
   - put
   - patch 
   - delete
-
+- playing with routes pattern ? , + , *
+- playing with regex as the route path
+- use the query parameter and path prameter (dynamic routing) got to know about objects.key
