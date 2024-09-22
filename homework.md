@@ -50,3 +50,10 @@
 - playing with routes pattern ? , + , *
 - playing with regex as the route path
 - use the query parameter and path prameter (dynamic routing) got to know about objects.key
+
+# day 3
+
+- work with route handler
+- create multiple router handle for the single route
+- playimg with route handler
+- understand the req,res,next paramater\
