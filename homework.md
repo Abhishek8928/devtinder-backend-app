@@ -56,4 +56,16 @@
 - work with route handler
 - create multiple router handle for the single route
 - playimg with route handler
-- understand the req,res,next paramater\
+- understand the req,res,next paramater
+- what is middleware and why we needed them 
+  - a middleware is also a function only before the request reached to main router handler the request has go throught through the middleware for authetication or adding some thing inside the req a middleware can so break the request and responses cycle also if needed because middleware also have access req, res object 
+- how express js basically handles request behind the scenes
+  - actualy when request reached to the server express go line by line check every routes which matches and then executed respective router handler and send back the responses if responses is sended still we are trying to send the responses we will get error becuase onces the responses is sended the connnection establish to server will be closed
+
+- differences betweenn app.use and app.all
+    - it is executed for any htpp method but if specified the path in app.use it work as app.all we specified the path then any request with match or having that path this function will be executed 
+    - it is used to mount the middleware for all request
+    - maximum both usecase are same itself 
+
+- write dummy auth middleware for admin only
+- write the dummy middleware for user but except /user/login

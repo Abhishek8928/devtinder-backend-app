@@ -2,23 +2,24 @@ const express = require("express");
 const app = express();
 const port = 7777;
 
+const isAdmin = require("./Middleware/isAdmin")
+const isUser = require("./Middleware/isUser")
+app.use("/admin",isAdmin);
 
-app.get('/fly',[(req,res,next)=>{
-  next()
-    console.log('router handler first')
-    // res.send('responses 1')
-},(req,res,next)=>{
-  console.log('router handler second')
-  // res.send('responses 2')
-  next()
-}],(req,res,next)=>{
-  console.log('router handler third')
-  next()
-},(req,res,next)=>{
-  console.log('router handler fourth')
-  res.send('responses 4')
+
+app.get("/admin/allUser", (req, res) => {
+  res.send("abled to access any resourcees becuase you are the admin");
+});
+app.get("/admin/delteUser", (req, res, next) => {});
+
+
+app.get("/user/getprofile", isUser,  (req,res)=>{
+res.send("abled to access")
 })
 
+app.get("/user/login",  (req,res)=>{
+  res.send("witout middleware")
+  })
 
 const BASE_URL = `http:localhost:${port}`;
 
