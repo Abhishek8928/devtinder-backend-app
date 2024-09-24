@@ -1,6 +1,7 @@
 # Tasks :-
 
 # day 1
+
 - create a repository 
 - initialize the project
 - differnces between package.json , node_modules , package-lock.json
@@ -69,3 +70,31 @@
 
 - write dummy auth middleware for admin only
 - write the dummy middleware for user but except /user/login
+- how error handling work if there is no error handling middleware
+  - whenever we throw error then control exit from router handler if any error handling middleware is present then express will executed that or else if not express has its own error handling middleware that handle error very peacefully and set status code to be always 500 right
+  
+# day 4
+
+- create a cluster and get the connection string
+- install the mongoose library which help us to connect to the database
+- make the connection to the database with your server
+  - note a connected to the database it doesnot means it will create a database until you insert any collection into it
+- make the priority that 
+  - connected the db first
+  - make you app to liosten the incoming request to the port
+- create a schema 
+- create a user model 
+- create a new api to register the user /api/signup
+- used the model to create or construct the document
+- learn about 12 bytes objectId and --v field that added by mongodb 
+- add try and ctach block inside the code for error handling
+- used the postman to test you first api also has been done
+
+
+
+
+# good parctise to write backend code maintaining clarity and consistency in your codebase.
+
+- make the db connection first then start listening to incoming request
+- always used camelCase for you schmema field name and uppercase for your model right
+- whenever doing db operation use try and ctach block in that situation 

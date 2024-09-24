@@ -1,28 +1,37 @@
 const express = require("express");
+const UserModel = require("./models/User");
 const app = express();
 const port = 7777;
+const connectDB = require("./config/connection");
 
-const isAdmin = require("./Middleware/isAdmin")
-const isUser = require("./Middleware/isUser")
-app.use("/admin",isAdmin);
+app.post("/api/signup", async (req, res) => {
+  const newUser = {
+    firstName: "Neeru",
+    lastName: "Bajwa",
+    emailId: "Neerubajwa@gmail.com",
+    hashPassword: "Nerru123",
+    age: 24,
+    gender: "female",
+  };
 
+  try {
+    const user = new UserModel({ ...newUser });
+    await user.save();
+    res.send(`welcome ${user?.firstName}`)
+  } catch (err) {
+    res.status(400).send("Error mounting the resources: Invalid input data.");
+  }
 
-app.get("/admin/allUser", (req, res) => {
-  res.send("abled to access any resourcees becuase you are the admin");
+  // res.send("user creted successfully");
 });
-app.get("/admin/delteUser", (req, res, next) => {});
 
-
-app.get("/user/getprofile", isUser,  (req,res)=>{
-res.send("abled to access")
-})
-
-app.get("/user/login",  (req,res)=>{
-  res.send("witout middleware")
+connectDB()
+  .then(() => {
+    console.log("connection has been established ...");
+    app.listen(port, () => {
+      console.log(`🚀 Server is Up & Running on ${BASE_URL}`);
+    });
   })
+  .catch((err) => console.log("connection has been failed ..."));
 
 const BASE_URL = `http:localhost:${port}`;
-
-app.listen(port, () => {
-  console.log(`🚀 Server is Up & Running on ${BASE_URL}`);
-});
