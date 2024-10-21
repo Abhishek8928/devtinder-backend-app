@@ -62,6 +62,34 @@ app.post("/api/signup", async (req, res) => {
   }
 });
 
+
+app.delete("/api/users", async function(req,res){
+  const {userId} = req.body;
+
+ try{
+  const deletedUser = await UserModel.findByIdAndDelete(userId,{lean:true});
+
+  console.log(deletedUser)
+
+  res.status(200).send('user deleted successfully')
+ }catch(err){
+  res.status(500).send("server internal error: " + err.message);
+ }
+})
+
+app.patch("/api/users", async function(req,res){
+  const {userId} = req.body;
+
+ try{
+  const updatedUser = await UserModel.findByIdAndUpdate(userId,{...req.body});
+
+  console.log(updatedUser)
+
+  res.status(200).send('user updated successfully')
+ }catch(err){
+  res.status(500).send("server internal error: " + err.message);
+ }
+})
 connectDB()
   .then(() => {
     console.log("connection has been established ...");

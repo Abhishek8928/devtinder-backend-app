@@ -100,6 +100,10 @@
   - to get single user
   - to get all the user
   - to get a specific user by their id only using mongoose method 
+  - to delete a specific user by the id
+  - to update a specific user by id
+  - explore the documentation and model and some option also
+
 
 
 # good parctise to write backend code maintaining clarity and consistency in your codebase.
