@@ -90,7 +90,16 @@
 - add try and ctach block inside the code for error handling
 - used the postman to test you first api also has been done
 
+# day 5
 
+- difference between vs js object and json
+- use the middleware to read the json data
+- create a new user inside the database
+- build a user api that return single user and verify that if two user have same email what document it will return first or second
+- create a api 
+  - to get single user
+  - to get all the user
+  - to get a specific user by their id only using mongoose method 
 
 
 # good parctise to write backend code maintaining clarity and consistency in your codebase.
@@ -98,3 +107,4 @@
 - make the db connection first then start listening to incoming request
 - always used camelCase for you schmema field name and uppercase for your model right
 - whenever doing db operation use try and ctach block in that situation 
+- never allow two user with the same email inside our database
