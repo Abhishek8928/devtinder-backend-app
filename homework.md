@@ -104,6 +104,16 @@
   - to update a specific user by id
   - explore the documentation and model and some option also
 
+# day 6
+
+- understand about the constranits over te scehma field 
+- used required flag over the field
+- used trim , minLength and maxLength , default , enum , min , max for number type field
+- explore the immutable flag which does not give any error and avoid to update the field
+- create a custom validator for a specific field
+- enhanced the validation over the schhema field which is safety at mongodb side
+- learn more about some extra constraints
+- make the userScehma to be more structed and well maintain
 
 
 # good parctise to write backend code maintaining clarity and consistency in your codebase.

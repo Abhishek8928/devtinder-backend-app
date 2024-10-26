@@ -58,7 +58,7 @@ app.post("/api/signup", async (req, res) => {
     await user.save();
     res.send(`welcome ${user?.firstName}`);
   } catch (err) {
-    res.status(400).send("Error mounting the resources: Invalid input data.");
+    res.status(400).send("Error mounting the resources: Invalid input data." + err.message);
   }
 });
 
@@ -81,7 +81,8 @@ app.patch("/api/users", async function(req,res){
   const {userId} = req.body;
 
  try{
-  const updatedUser = await UserModel.findByIdAndUpdate(userId,{...req.body});
+  const updatedUser = await UserModel.findByIdAndUpdate(userId,{...req.body},{new: true,runValidators:true});
+
 
   console.log(updatedUser)
 
