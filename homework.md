@@ -114,6 +114,8 @@
 - enhanced the validation over the schhema field which is safety at mongodb side
 - learn more about some extra constraints
 - make the userScehma to be more structed and well maintain
+- added some api level validation
+- data santization has been done before saving data to db we have check all data which is passed over the body should be followed all requirement of our application 
 
 
 # good parctise to write backend code maintaining clarity and consistency in your codebase.

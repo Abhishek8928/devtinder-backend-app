@@ -34,7 +34,7 @@ const userSchema = new Schema(
       type: Number,
       required: true,
       min: 18,
-      max: 20,
+      max: 50,
     },
     gender: {
       type: String,
@@ -53,7 +53,7 @@ const userSchema = new Schema(
     bio: {
       type: String,
       minLength: 4,
-      maxLength: 50,
+      maxLength: 500,
     },
     skills: {
       type: [String],
