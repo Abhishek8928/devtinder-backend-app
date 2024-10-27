@@ -1,5 +1,7 @@
 const { Schema, default: mongoose } = require("mongoose");
 
+const validator = require("validator");
+
 const userSchema = new Schema(
   {
     username: {
@@ -13,10 +15,15 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Invalid email " + value);
+        }
+      },
     },
     hashPassword: {
       type: String,
+      required:true
     },
     firstName: {
       type: String,
@@ -32,7 +39,6 @@ const userSchema = new Schema(
     },
     age: {
       type: Number,
-      required: true,
       min: 18,
       max: 50,
     },
@@ -49,6 +55,11 @@ const userSchema = new Schema(
       type: String,
       default:
         "https://imgs.search.brave.com/JWoO8Nmi6nM13kolts_K_iTaodJJZwcD6cIpgH8erUM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by8zZC1hdmF0YXIt/Y2FydG9vbi1jaGFy/YWN0ZXJfMTEzMjU1/LTkzMjgzLmpwZz9z/ZW10PWFpc19oeWJy/aWQ",
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("Invalid URL " + value);
+        }
+      },
     },
     bio: {
       type: String,
@@ -76,12 +87,12 @@ const userSchema = new Schema(
       },
     },
 
-    matches:{
-      type:[String]
+    matches: {
+      type: [String],
     },
-    notifications:{
-      type:[String]
-    }
+    notifications: {
+      type: [String],
+    },
   },
   { timestamps: true }
 );

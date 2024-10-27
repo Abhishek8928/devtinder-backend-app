@@ -3,125 +3,78 @@ const UserModel = require("./models/User");
 const app = express();
 const port = 7777;
 const connectDB = require("./config/connection");
-
+const { validateSignUpForm, validateLogInForm } = require("./utils/validate");
+const bcrypt = require("bcrypt");
 // middleware
 app.use(express.json());
 
-app.get("/api/user", async function (req, res) {
-  const { emailId } = req.body;
-
-  if (emailId) {
-    const user = await UserModel.findOne({ emailId });
-
-    if (!user) {
-      return res.status(404).send("user with the email does not exist");
-    }
-
-    return res.send(user);
-  }
-
-  res.status(400).send("no email id is provided");
-});
-
-app.get("/api/users", async function (req, res) {
-  try {
-    const user = await UserModel.find({});
-
-    res.status(200).send(user);
-  } catch (err) {
-    res.status(500).send("server internal error: " + err.message);
-  }
-});
-
-// to get speific user by id
-
-app.get("/api/user/:id", async function (req, res) {
-  try {
-    if (req.params.id) {
-      const user = await UserModel.findById(req.params.id);
-
-      return res.status(200).json({
-        status: true,
-        user: user,
-      });
-    }
-
-    res.status(400).send("id is not provieded to us");
-  } catch (err) {
-    res.status(500).send("server internal error: " + err.message);
-  }
-});
-
 app.post("/api/signup", async (req, res) => {
   try {
-    const user = new UserModel({ ...req.body });
-    await user.save();
-    res.send(`welcome ${user?.firstName}`);
-  } catch (err) {
-    res
-      .status(400)
-      .send("Error mounting the resources: Invalid input data." + err.message);
+    // Validate the request body before proceeding
+    validateSignUpForm(req);
+
+    // Extract the password from the request body
+    const { hashPassword } = req.body;
+
+    // Define the salt round count for password hashing
+    const saltRounds = 10;
+
+    // Generate a salt for password hashing
+    const salt = await bcrypt.genSalt(saltRounds);
+
+    // Hash the password using the generated salt
+    const hashedPassword = await bcrypt.hash(hashPassword, salt);
+
+    // Prepare the user data for saving
+    const userData = {
+      ...req.body,
+      hashPassword: hashedPassword,
+    };
+
+    // Create a new user document
+    const newUser = new UserModel(userData);
+
+    // Save the new user to the database
+    await newUser.save();
+
+    // Send a success response
+    res.status(200).send("User created successfully");
+
+  } catch (error) {
+    // Handle any errors that occur during the signup process
+    res.status(400).send(`Error during signup: ${error.message}`);
   }
 });
 
-app.delete("/api/users", async function (req, res) {
-  const { userId } = req.body;
 
-  try {
-    const deletedUser = await UserModel.findByIdAndDelete(userId, {
-      lean: true,
-    });
+app.post("/api/login",async (req,res)=>{
+   try {
+    validateLogInForm(req)
 
-    console.log(deletedUser);
+    const {emailId,password} = req.body;
+    const existingUser = await UserModel.findOne({emailId});
 
-    res.status(200).send("user deleted successfully");
-  } catch (err) {
-    res.status(500).send("server internal error: " + err.message);
+    
+    if(!existingUser){
+        throw new Error('Invalid Credential');
+    }
+
+
+    const result = await bcrypt.compare(password, existingUser?.hashPassword);
+    if(!result){
+      throw new Error('Invalid Credential')
+    }
+
+    res.status(200).send("user logged in successfully")
+   }catch (error) {
+    // Handle any errors that occur during the signup process
+    res.status(400).send(`Error during login: ${error.message}`);
   }
-});
+})
 
-app.patch("/api/users", async function (req, res) {
-  const { userId } = req.body;
 
-  const ALLOWED_FORMAT = [
-    "firstName",
-    "lastName",
-    "emailId",
-    "age",
-    "gender",
-    "skills",
-  ];
 
-  const isUpdatedValid = Object.keys(req.body).every((k) =>
-    ALLOWED_FORMAT.includes(k)
-  );
 
-  if (!isUpdatedValid) {
-    return res
-      .status(400)
-      .send("can only updated the field " + ALLOWED_FORMAT.join(","));
-  }
-
-  if (req.body?.skills && req.body.skills.length > 10) {
-    return res
-      .status(400)
-      .send("skills array should not have more than 10 items");
-  }
-
-  try {
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      userId,
-      { ...req.body },
-      { new: true, runValidators: true }
-    );
-
-    console.log(updatedUser);
-
-    res.status(200).send("user updated successfully");
-  } catch (err) {
-    res.status(500).send("server internal error: " + err.message);
-  }
-});
 connectDB()
   .then(() => {
     console.log("connection has been established ...");

@@ -117,6 +117,16 @@
 - added some api level validation
 - data santization has been done before saving data to db we have check all data which is passed over the body should be followed all requirement of our application 
 
+# day 7
+
+- validate the req.body before processing the data
+- install bcrypt package to encrypt and decrypt the password and compare it
+- encrypted the password has done for signup api ( on boarding api)
+- save it to database
+- create a login api and validate and sanitize the data compare the password check is user exits or not
+- writeen all logic and error for the login api
+
+
 
 # good parctise to write backend code maintaining clarity and consistency in your codebase.
 
@@ -124,3 +134,4 @@
 - always used camelCase for you schmema field name and uppercase for your model right
 - whenever doing db operation use try and ctach block in that situation 
 - never allow two user with the same email inside our database
+- never trust req.body data always validate and sanitize it before using it
