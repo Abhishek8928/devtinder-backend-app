@@ -127,6 +127,20 @@
 - writeen all logic and error for the login api
 
 
+# day 8
+ 
+- learn about jwt cookies and authetiction
+- just created a dummy token and send it to the user browser
+- install cookie-parser middleware 
+- read the cookies in te profile api
+- learn about signed and unsigned cookies with signature 
+- create a jwt token after user validated and then create the token and set it as cookies
+- created /profile endpoint to verify the token and extract user data
+- know the mechnasim of how the signature are verify
+- created auth middleware to validate the token
+- added the middleware to profile route and create a new api with path sendconnectionrequest
+- add expires for both the jwt as well as cookies also
+
 
 # good parctise to write backend code maintaining clarity and consistency in your codebase.
 
@@ -135,3 +149,4 @@
 - whenever doing db operation use try and ctach block in that situation 
 - never allow two user with the same email inside our database
 - never trust req.body data always validate and sanitize it before using it
+- always add expiries for your jwt token as well as cookies always signed your cookies

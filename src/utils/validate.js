@@ -1,5 +1,7 @@
 const validator = require('validator');
 const UserModel = require('../models/User');
+
+
 function validateSignUpForm(req){
     const {username , emailId , hashPassword ,firstName , lastName}  = req.body;
     console.log(req.body)
@@ -24,13 +26,14 @@ function validateSignUpForm(req){
 }
 
 function validateLogInForm(req){
-    const {emailId, password} = req.body;
+    const {userEmail, userPassword} = req.body;
 
-    if(!emailId || !password){
+    if(!userEmail || !userPassword){
         throw new Error('Email and password are required for login');
     }
-
 }
+
+
 module.exports = {
     validateSignUpForm,
     validateLogInForm
