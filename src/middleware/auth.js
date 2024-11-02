@@ -17,8 +17,6 @@ async function validateToken(req, res, next) {
       throw new Error("User Not Found");
     }
 
-    console.log(user);
-
     req.user = user;
     next();
   } catch (error) {

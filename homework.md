@@ -141,6 +141,29 @@
 - added the middleware to profile route and create a new api with path sendconnectionrequest
 - add expires for both the jwt as well as cookies also
 
+# day 9
+
+- explore devTinder 
+- explore how the devTinder api has been created
+- Add DevTinder API Endpoints Documentation and implement the features based on it
+- Group the multiple APIs into categories to create a router object
+- explore express.Router which give router object -> method get , post , patch , delete (htpp verbs)
+- created router for the following api category which is auth , connection , profile , request
+- now my index.js doesnot look bloated
+- created logout , edit , view 
+- created feed , search api 
+
+# day 10
+
+- created connectionRequestSchema
+- created a single API to handle both interested and ignore connection requests dynamically
+  - POST /request/:status/:toUserId
+- validate token , validate objectIds
+- created a utils to validate ids 
+- cover every corner case of the api
+- learn about $or and &and operator in mongodb
+- learn about index and how to optimize the search queries learn about compound index
+
 
 # good parctise to write backend code maintaining clarity and consistency in your codebase.
 
@@ -150,3 +173,6 @@
 - never allow two user with the same email inside our database
 - never trust req.body data always validate and sanitize it before using it
 - always add expiries for your jwt token as well as cookies always signed your cookies
+- never bloated your file
+- use chaining which send the responses + setting the status + setting the cookies 
+- validate all the data in every post , patch and put
