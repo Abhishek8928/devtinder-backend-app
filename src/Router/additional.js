@@ -1,6 +1,8 @@
 const express = require("express");
 const validateToken = require("../middleware/auth");
 const UserModel = require("../models/User");
+const ConnectionRequestModel = require("../models/connectionRequest");
+const { connect } = require("./profile");
 const router = express.Router();
 
 router.get("/search", validateToken, async (req, res) => {
@@ -27,5 +29,18 @@ router.get("/search", validateToken, async (req, res) => {
     res.status(500).send("Error : " + error.message);
   }
 });
+
+
+router.get("/connection",validateToken,async (req,res)=>{
+  const loggedInUser = req.user;
+  const connectionList = await ConnectionRequestModel.find({
+    fromUserId: loggedInUser._id
+  })
+
+  res.status(200).json({
+    message:`${loggedInUser?.firstName} all connection list `,
+    data:connectionList
+  })
+})
 
 module.exports = router;

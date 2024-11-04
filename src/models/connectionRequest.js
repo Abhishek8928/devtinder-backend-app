@@ -8,10 +8,12 @@ const connectionRequestSchema = new mongoose.Schema(
         validator: (v) => mongoose.Types.ObjectId.isValid(v),
         message: "Invalid user ID",
       },
+      ref:'User'
     },
     toUserId: {
       type: mongoose.Types.ObjectId,
       required: true,
+      ref:'User',
       validate: {
         validator: (v) => mongoose.Types.ObjectId.isValid(v),
         message: "Invalid user ID",
@@ -40,4 +42,5 @@ connectionRequestSchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("ConnectionRequest", connectionRequestSchema);
+const ConnectionRequestModel = mongoose.model("ConnectionRequest", connectionRequestSchema);
+module.exports = ConnectionRequestModel;

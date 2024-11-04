@@ -5,6 +5,9 @@ const bcrypt = require("bcrypt");
 
 const { validateLogInForm, validateSignUpForm } = require("../utils/validate");
 
+
+const NotificationModel = require("../models/Notification");
+
 router.post("/signup", async (req, res) => {
   try {
     // Validate the request body before proceeding
@@ -31,7 +34,11 @@ router.post("/signup", async (req, res) => {
     // Create a new user document
     const newUser = new UserModel(userData);
 
-    // Save the new user to the database
+    const NotificationInstances = NotificationModel({
+      userId: newUser._id,
+    });
+
+    await NotificationInstances.save();
     await newUser.save();
 
     // Send a success response

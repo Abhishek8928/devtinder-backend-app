@@ -12,8 +12,9 @@ app.use("/api/v1", require("./Router/auth"));
 app.use("/api/v1", require("./Router/profile"));
 app.use("/api/v1", require("./Router/request"));
 app.use("/api/v1", require("./Router/connection"));
-app.use("/api/v1", require("./Router/feed"));
+// app.use("/api/v1", require("./Router/feed"));
 app.use("/api/v1", require("./Router/additional"));
+app.use("/api/v1", require("./Router/users"));
 
 app.use("*", (req, res) => {
   res.send("failed to find any specific routes");

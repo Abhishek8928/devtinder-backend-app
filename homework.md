@@ -165,6 +165,15 @@
 - learn about index and how to optimize the search queries learn about compound index
 
 
+# day 11
+
+- create a notification at both side to sowecase request has been accepted by end user
+- create notificationSchmea nd model to populate some notification 
+- after user signup a  notification doicument is created for each user
+- create an get api for /request/received to user
+- create an api for see mutual connection and as well sell all incoming connection request
+- created an api for /feed and also added pagination for feed api
+
 # good parctise to write backend code maintaining clarity and consistency in your codebase.
 
 - make the db connection first then start listening to incoming request
@@ -176,3 +185,8 @@
 - never bloated your file
 - use chaining which send the responses + setting the status + setting the cookies 
 - validate all the data in every post , patch and put
+
+
+# Further Implementation
+
+- add redis for faster responses
