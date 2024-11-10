@@ -51,6 +51,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
+    
     validateLogInForm(req);
 
     const { userEmail, userPassword } = req.body;
@@ -67,11 +68,17 @@ router.post("/login", async (req, res) => {
 
     const token = await existingUser.getJWT();
 
+
     res.cookie("token", token, {
       signed: true,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
-    res.status(200).send("user logged in successfully");
+
+
+    res.status(200).json({
+      message:"User Logged In Successfully",
+      data:existingUser
+    });
   } catch (error) {
     // Handle any errors that occur during the signup process
     res.status(400).send(`Error during login: ${error.message}`);

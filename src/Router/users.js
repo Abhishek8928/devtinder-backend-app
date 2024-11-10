@@ -3,8 +3,21 @@ const validateToken = require("../middleware/auth");
 const ConnectionRequestModel = require("../models/connectionRequest");
 const userRouter = express.Router();
 const UserModel = require("../models/User");
+const NotificationModel = require("../models/Notification");
 
-const allowed_public_data = "username firstName lastName photoUrl bio skills";
+const allowed_public_data = "username firstName lastName photoUrl bio skills gender age skills";
+
+userRouter.get("/notifications",validateToken , async (req,res)=>{
+  const loggedInUser = req.user;
+  const notificationList = await NotificationModel.findOne({
+    userId: loggedInUser?._id
+  }) .populate('connectionRequestInfo.fromUserId', 'firstName username photoUrl')  
+  .populate('connectionRequestInfo.toUserId', 'firstName username photoUrl');
+
+  res.status(200).json({
+    data:notificationList
+  })
+})
 userRouter.get("/request/received", validateToken, async (req, res) => {
   try {
     const loggedInUser = req.user;
@@ -114,7 +127,7 @@ userRouter.get("/feed", validateToken, async (req, res) => {
       .select(allowed_public_data)
       .skip(skipValue).limit(limit);
 
-    res.status(400).json({
+    res.status(200).json({
       message: "Feed user list",
       data: feedUser,
     });

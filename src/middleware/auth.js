@@ -6,7 +6,7 @@ async function validateToken(req, res, next) {
     const { token } = req?.signedCookies;
 
     if (!token) {
-      throw new Error("token is not valid or not present");
+      return res.status(401).send("token is not valid or not present");
     }
 
     const { _id } = jwt.verify(token, "devTinder");

@@ -3,10 +3,15 @@ const app = express();
 const port = 7777;
 const connectDB = require("./config/connection");
 const cookieParser = require("cookie-parser");
-
+const cors = require("cors");
 // middleware
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  credentials: true,               
+}));
 app.use(express.json());
 app.use(cookieParser("devTinder"));
+
 
 app.use("/api/v1", require("./Router/auth"));
 app.use("/api/v1", require("./Router/profile"));
