@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 router.get("/profile/view", validateToken, async (req, res) => {
   try {
     const { _id } = req.user;
-    const user = await UserModel.findById(_id);
+    const user = await UserModel.findById(_id).select('-hashPassword -emailId');
 
     res.status(200).json({
       message: "Profile fetched successfully.",
@@ -19,6 +19,22 @@ router.get("/profile/view", validateToken, async (req, res) => {
     res.status(400).send(`Token verification failed: ${error.message}`);
   }
 });
+
+router.get("/profile/connection/:userId", validateToken, async (req, res) => {
+  try {
+    const { userId} = req.params;
+    const user = await UserModel.findById(userId);
+
+    res.status(200).json({
+      message: "Profile fetched successfully.",
+      data: user
+    });
+  } catch (error) {
+    res.status(400).send(`Token verification failed: ${error.message}`);
+  }
+});
+
+
 
 router.patch("/profile/edit", validateToken, async (req, res) => {
   try {
@@ -35,7 +51,7 @@ router.patch("/profile/edit", validateToken, async (req, res) => {
       loggedInUserId,
       { ...req.body },
       { runValidators: true, new: true }
-    );
+    ).select("-hashPassword");
 
     if (!updatedUserProfile) {
       return res.status(404).json({
@@ -45,6 +61,7 @@ router.patch("/profile/edit", validateToken, async (req, res) => {
     }
     res.status(200).json({
       message: `${updatedUserProfile?.firstName} profile has been updated`,
+      data:updatedUserProfile
     });
   } catch (error) {
     res.status(400).send("Error : " + error.message);

@@ -31,7 +31,7 @@ userRouter.get("/request/received", validateToken, async (req, res) => {
     });
 
     const extractNeccessaryInfo = incomingPendingRequestLists.map((row) => {
-      return { _id: row?._id, info: row.fromUserId };
+      return { _id: row?._id, data: row.fromUserId };
     });
 
     res.status(200).json({
