@@ -26,7 +26,11 @@ const NotificationSchema = new mongoose.Schema(
           },
         },
         status: {
-            type:String
+          type: String,
+        },
+        timeStampForRequest: {
+          type: Date,
+          default: Date.now,
         },
       },
     ],

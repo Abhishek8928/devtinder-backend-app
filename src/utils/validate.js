@@ -2,16 +2,15 @@ const validator = require("validator");
 const UserModel = require("../models/User");
 
 function validateSignUpForm(req) {
-  const { username, emailId, hashPassword, firstName, lastName } = req.body;
-  console.log(req.body);
-  if (!username || !emailId || !hashPassword || !firstName || !lastName) {
+  const { username, userEmail, userPassword, firstName, lastName } = req.body;
+  if (!username || !userEmail || !userPassword || !firstName || !lastName) {
     throw new Error(
       "One or more required fields are missing to onboard on the platform"
     );
   }
 
-  const isValidEmail = validator.isEmail(emailId);
-  const isValidPassword = validator.isStrongPassword(hashPassword);
+  const isValidEmail = validator.isEmail(userEmail);
+  const isValidPassword = validator.isStrongPassword(userPassword);
   const isValidUserName = validator.isLength(username, { min: 3, max: 30 });
 
   const isValidFirstName = validator.isLength(firstName, { min: 3, max: 24 });

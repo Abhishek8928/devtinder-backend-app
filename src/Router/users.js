@@ -11,7 +11,7 @@ userRouter.get("/notifications",validateToken , async (req,res)=>{
   const loggedInUser = req.user;
   const notificationList = await NotificationModel.findOne({
     userId: loggedInUser?._id
-  }) .populate('connectionRequestInfo.fromUserId', 'firstName username photoUrl')  
+  }).populate('connectionRequestInfo.fromUserId', 'firstName username photoUrl')  
   .populate('connectionRequestInfo.toUserId', 'firstName username photoUrl');
 
   res.status(200).json({
@@ -92,6 +92,7 @@ userRouter.get("/feed", validateToken, async (req, res) => {
         */
 
     const loggedInUser = req?.user;
+  
 
     // find all user either i have send a request or else they me the request
 
@@ -106,15 +107,20 @@ userRouter.get("/feed", validateToken, async (req, res) => {
       ],
     }).select("fromUserId toUserId");
 
+    
+
     // i created a set that can hold unique id and all connection i will store in this set
     // if connection is sent by me or thehy have send to me so i will ignore all thhat users
     // reason beacuase already i have send connection request so no needed to show their feed to loggedInUser
     const hideUserFromFeed = new Set();
+    hideUserFromFeed.add(loggedInUser?._id.toString())
 
     connectionRequest.forEach((row) => {
       hideUserFromFeed.add(row.fromUserId.toString());
       hideUserFromFeed.add(row.toUserId.toString());
     });
+
+    
 
     const limit = req.query.limit || 10;
     const pageNo = req.query.pageNo || 1;

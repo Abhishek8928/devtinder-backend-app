@@ -89,13 +89,6 @@ const userSchema = new Schema(
         match: /^(https?:\/\/)?[\w-]+(\.[\w-]+)*\.[^\s@]+$/,
       },
     },
-
-    matches: {
-      type: [String],
-    },
-    notifications: {
-      type: [String],
-    },
   },
   { timestamps: true }
 );
@@ -115,7 +108,7 @@ userSchema.methods.comparePassword = async function (passwordInputByUser){
     hashPassword
   );
 
-  console.log(isPasswordValid)
+  
 
   return isPasswordValid;
 }

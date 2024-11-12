@@ -14,7 +14,7 @@ router.post("/signup", async (req, res) => {
     validateSignUpForm(req);
 
     // Extract the password from the request body
-    const { hashPassword } = req.body;
+    const {userPassword ,userEmail} = req.body;
 
     // Define the salt round count for password hashing
     const saltRounds = 10;
@@ -23,11 +23,12 @@ router.post("/signup", async (req, res) => {
     const salt = await bcrypt.genSalt(saltRounds);
 
     // Hash the password using the generated salt
-    const hashedPassword = await bcrypt.hash(hashPassword, salt);
+    const hashedPassword = await bcrypt.hash(userPassword, salt);
 
     // Prepare the user data for saving
     const userData = {
       ...req.body,
+      emailId:userEmail,
       hashPassword: hashedPassword,
     };
 
@@ -41,8 +42,20 @@ router.post("/signup", async (req, res) => {
     await NotificationInstances.save();
     await newUser.save();
 
-    // Send a success response
-    res.status(200).send("User created successfully");
+    const token = await newUser.getJWT();
+
+
+    res.cookie("token", token, {
+      signed: true,
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    });
+
+
+    res.status(200).json({
+      message:"New User Created Successfully",
+      data:newUser
+    });
+
   } catch (error) {
     // Handle any errors that occur during the signup process
     res.status(400).send(`Error during signup: ${error.message}`);
@@ -65,6 +78,11 @@ router.post("/login", async (req, res) => {
     if (!isPasswordValid) {
       throw new Error("Invalid Credential");
     }
+     const noti = await NotificationModel.findOne({
+      userId:existingUser._id
+    })
+
+   
 
     const token = await existingUser.getJWT();
 
@@ -74,7 +92,13 @@ router.post("/login", async (req, res) => {
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
-
+    if(!noti){
+      const newNotification = await NotificationModel({
+        userId: existingUser._id,
+        connectionRequestInfo: []
+      })
+      await newNotification.save()
+    }
     res.status(200).json({
       message:"User Logged In Successfully",
       data:existingUser
@@ -86,7 +110,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-  console.log(res.cookie("token", null, { expires: new Date() }));
+
   res.cookie("token", null, { expires: new Date() }).status(200).json({
     status: 1,
     message: "user loggedout successfully",

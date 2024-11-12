@@ -43,7 +43,7 @@ router.post("/review/:status/:requestId", validateToken, async (req, res) => {
       status: "interested",
     });
 
-    console.log("data is", interestedConnectionRequest);
+    
 
     if (!interestedConnectionRequest) {
       return res.status(404).json({
@@ -63,7 +63,7 @@ router.post("/review/:status/:requestId", validateToken, async (req, res) => {
       });
     }
 
-    fromUserNotification?.connectionRequestInfo?.unshift({
+    fromUserNotification?.connectionRequestInfo?.push({
       fromUserId: interestedConnectionRequest?.fromUserId,
       toUserId: interestedConnectionRequest?.toUserId,
       status: interestedConnectionRequest?.status,
