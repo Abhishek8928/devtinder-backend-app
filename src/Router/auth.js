@@ -46,6 +46,9 @@ router.post("/signup", async (req, res) => {
 
 
     res.cookie("token", token, {
+      httpOnly: true,                    // Prevents access via JavaScript
+      secure: true,                      // Ensures cookies are only sent over HTTPS in production
+      sameSite: 'None',
       signed: true,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
@@ -78,9 +81,7 @@ router.post("/login", async (req, res) => {
     if (!isPasswordValid) {
       throw new Error("Invalid Credential");
     }
-     const noti = await NotificationModel.findOne({
-      userId:existingUser._id
-    })
+    
 
    
 
@@ -88,17 +89,14 @@ router.post("/login", async (req, res) => {
 
 
     res.cookie("token", token, {
+      httpOnly: true,                    // Prevents access via JavaScript
+    secure: true,                      // Ensures cookies are only sent over HTTPS in production
+    sameSite: 'None',
       signed: true,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
-    if(!noti){
-      const newNotification = await NotificationModel({
-        userId: existingUser._id,
-        connectionRequestInfo: []
-      })
-      await newNotification.save()
-    }
+    
     res.status(200).json({
       message:"User Logged In Successfully",
       data:existingUser
