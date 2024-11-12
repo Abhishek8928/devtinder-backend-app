@@ -2,6 +2,10 @@
   "name": "devtinder",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src"
